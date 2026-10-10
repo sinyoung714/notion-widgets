@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>today</title>
+<style>
+:root{--cream:#FFF4E6;--ink:#2B1B3A;--pers:#FF6B3D;--wasabi:#C9E54B;--blue:#8EC8FF;--jade:#3DBA93;--gum:#FF9DC8;--plum:#7A3E8E;--lilac:#D9C2FF;--acc:var(--pers)}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:var(--cream);color:var(--ink);font-family:"Helvetica Neue",Arial,system-ui,sans-serif;overflow:hidden}
+.wrap{height:100%;min-height:300px;display:grid;grid-template-columns:1.15fr 1fr;gap:14px;padding:14px}
+.panel{border:3px solid var(--ink);border-radius:26px;box-shadow:5px 5px 0 var(--ink);padding:clamp(16px,3.2vh,30px) clamp(16px,2.6vw,30px);display:flex;flex-direction:column;justify-content:center;gap:clamp(10px,2.4vh,22px);position:relative;overflow:hidden;min-height:0}
+.hello{background:#FFFBF4;background-image:linear-gradient(rgba(43,27,58,.06) 1.5px,transparent 1.5px),linear-gradient(90deg,rgba(43,27,58,.06) 1.5px,transparent 1.5px);background-size:26px 26px}
+.focus{background:var(--blue);background-image:radial-gradient(rgba(255,255,255,.55) 2px,transparent 2.5px);background-size:22px 22px;align-items:center;text-align:center}
+body.brk .focus{background-color:var(--wasabi)}
+body.brk{--acc:var(--jade)}
+.top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.chip{display:inline-flex;align-items:center;gap:6px;background:#fff;border:2.5px solid var(--ink);border-radius:999px;padding:4px 11px 4px 9px;font:700 12px "Courier New",monospace;letter-spacing:.06em;text-transform:uppercase;box-shadow:3px 3px 0 var(--ink)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--pers);animation:blink 1.6s infinite}
+@keyframes blink{50%{opacity:.25}}
+.date{font:700 12px "Courier New",monospace;letter-spacing:.08em;text-transform:uppercase;opacity:.75}
+.hi{font-family:Georgia,"Times New Roman",serif;font-style:italic;font-size:clamp(20px,min(3.4vw,5vh),34px);line-height:1.1}
+.hi b{font-family:"Arial Black","Helvetica Neue",Arial,sans-serif;font-style:normal;font-weight:900;letter-spacing:-.02em}
+.clock{display:flex;align-items:baseline;gap:8px;font-family:"Arial Black","Helvetica Neue",Arial,sans-serif;font-weight:900;letter-spacing:-.04em;line-height:.9}
+.clock .t{font-size:clamp(48px,min(9vw,15vh),120px)}
+.clock .ap{font-size:clamp(14px,2.4vh,20px);letter-spacing:0;background:var(--wasabi);border:2.5px solid var(--ink);border-radius:999px;padding:3px 10px;transform:translateY(-8px) rotate(-4deg)}
+.bars{display:grid;gap:clamp(6px,1.4vh,12px)}
+.bar{display:grid;grid-template-columns:52px 1fr 42px;align-items:center;gap:10px;font:700 11px "Courier New",monospace;text-transform:uppercase;letter-spacing:.06em}
+.track{height:clamp(12px,2.2vh,18px);border:2.5px solid var(--ink);border-radius:999px;background:#fff;overflow:hidden}
+.fill{height:100%;border-radius:999px;position:relative;transition:width .6s}
+.fill:after{content:"";position:absolute;left:6px;right:6px;top:2px;height:3px;border-radius:3px;background:rgba(255,255,255,.55)}
+.pct{text-align:right}
+.vibe{display:flex;align-items:center;gap:10px;background:var(--lilac);border:2.5px solid var(--ink);border-radius:16px;padding:10px 10px 10px 14px;box-shadow:3px 3px 0 var(--ink)}
+.vibe p{flex:1;font-size:clamp(13px,1.9vh,16px);line-height:1.3;font-weight:600}
+button{font:900 12px "Arial Black","Helvetica Neue",Arial,sans-serif;color:var(--ink);background:var(--gum);border:2.5px solid var(--ink);border-radius:999px;padding:7px 12px;cursor:pointer;box-shadow:2px 2px 0 var(--ink);white-space:nowrap;transition:transform .1s}
+button:active{transform:translate(2px,2px);box-shadow:none}
+.title{font:900 clamp(20px,3.4vh,28px) "Arial Black","Helvetica Neue",Arial,sans-serif;letter-spacing:-.02em;line-height:1}
+.title i{font-family:Georgia,serif;font-weight:400}
+.ring{position:relative;width:clamp(140px,min(24vw,38vh),260px);aspect-ratio:1}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring .in{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.time{font:900 clamp(30px,min(5.4vw,8.5vh),60px) "Arial Black","Helvetica Neue",Arial,sans-serif;letter-spacing:-.04em}
+.lbl{font:700 11px "Courier New",monospace;letter-spacing:.1em;text-transform:uppercase}
+.modes{display:flex;flex-wrap:wrap;justify-content:center;gap:6px}
+.modes button{background:#fff;font-size:11px;padding:5px 10px}
+.modes button.on{background:var(--ink);color:#fff}
+.ctrl{display:flex;gap:8px;width:100%;max-width:300px}
+#go{background:var(--acc);color:#fff;font-size:15px;padding:10px 18px;flex:1}
+#rs{background:#fff}
+.dots{display:flex;gap:6px;align-items:center;justify-content:center;font:700 11px "Courier New",monospace;text-transform:uppercase;letter-spacing:.06em}
+.dots span{width:13px;height:13px;border-radius:50%;border:2.5px solid var(--ink);background:#fff}
+.dots span.f{background:var(--pers)}
+.spark{position:absolute;width:26px;height:26px}
+@media (max-width:620px){.wrap{grid-template-columns:1fr;height:auto}body{overflow:auto}}
+@media (max-height:340px){.bars{display:none}}
+@media (prefers-reduced-motion:reduce){.dot{animation:none}.fill{transition:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <section class="panel hello">
+    <svg class="spark" style="right:22px;bottom:18px" viewBox="0 0 100 100"><path d="M50 0C54 36 64 46 100 50C64 54 54 64 50 100C46 64 36 54 0 50C36 46 46 36 50 0Z" fill="#FF6B3D"/></svg>
+    <div class="top"><span class="chip"><span class="dot"></span><span id="part">today</span></span><span class="date" id="date">✦</span></div>
+    <div class="hi" id="hi">hey, <b>main character</b> ✦</div>
+    <div class="clock"><span class="t" id="t">--:--</span><span class="ap" id="ap">✦</span></div>
+    <div class="bars">
+      <div class="bar"><span>day</span><div class="track"><div class="fill" id="fd" style="background:var(--pers);width:0"></div></div><span class="pct" id="pd">0%</span></div>
+      <div class="bar"><span>week</span><div class="track"><div class="fill" id="fw" style="background:var(--blue);width:0"></div></div><span class="pct" id="pw">0%</span></div>
+      <div class="bar"><span>year</span><div class="track"><div class="fill" id="fy" style="background:var(--jade);width:0"></div></div><span class="pct" id="py">0%</span></div>
+    </div>
+    <div class="vibe"><p id="aff">you don't have to do it all. just the next thing.</p><button id="shuffle" type="button">new vibe ✦</button></div>
+  </section>
+  <section class="panel focus">
+    <div class="title">focus <i>mode</i></div>
+    <div class="ring">
+      <svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="52" fill="#fff" stroke="#2B1B3A" stroke-width="5"/><circle id="arc" cx="60" cy="60" r="44" fill="none" stroke="var(--acc)" stroke-width="12" stroke-linecap="round" stroke-dasharray="276.46" stroke-dashoffset="0"/></svg>
+      <div class="in"><div class="time" id="time">25:00</div><div class="lbl" id="lbl">lock in</div></div>
+    </div>
+    <div class="modes"><button type="button" class="on" data-m="25" data-l="lock in">focus 25</button><button type="button" data-m="5" data-l="tiny break">break 5</button><button type="button" data-m="15" data-l="big break">rest 15</button></div>
+    <div class="ctrl"><button type="button" id="go">start ▶</button><button type="button" id="rs">↺</button></div>
+    <div class="dots" id="dots"><span></span><span></span><span></span><span></span>&nbsp;<em id="cnt" style="font-style:normal">today</em></div>
+  </section>
+</div>
+<script>
+(function(){
+  function $(i){return document.getElementById(i)}
+  var AFF=["you don't have to do it all. just the next thing.","small steps still move you forward.","rest is productive too.","you're allowed to take up space.","done is cuter than perfect.","future you is already proud.","one glass of water. one deep breath. go.","your pace is the right pace.","protect your peace, then your plans.","main character energy only today.","it's a soft reset, not a restart.","you've survived 100% of your hard days."];
+  var D=["sun","mon","tue","wed","thu","fri","sat"],M=["jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec"];
+  function set(f,p,v){var n=Math.max(0,Math.min(100,Math.round(v*100)));$(f).style.width=n+"%";$(p).textContent=n+"%"}
+  function tick(){
+    var d=new Date(),h=d.getHours(),m=d.getMinutes();
+    $("t").textContent=(h%12||12)+":"+(m<10?"0":"")+m;$("ap").textContent=h<12?"am":"pm";
+    $("date").textContent=D[d.getDay()]+" · "+M[d.getMonth()]+" "+d.getDate();
+    $("part").textContent=h<5?"night owl":h<12?"morning":h<17?"afternoon":h<21?"evening":"night";
+    $("hi").innerHTML=(h<5?"still up,":h<12?"good morning,":h<17?"good afternoon,":h<21?"good evening,":"wind down,")+" <b>main character</b> ✦";
+    var day=(h*3600+m*60+d.getSeconds())/86400;set("fd","pd",day);
+    set("fw","pw",(((d.getDay()+6)%7)+day)/7);
+    var y0=new Date(d.getFullYear(),0,1),y1=new Date(d.getFullYear()+1,0,1);set("fy","py",(d-y0)/(y1-y0));
+  }
+  var i=Math.floor(Math.random()*AFF.length);$("aff").textContent=AFF[i];
+  $("shuffle").addEventListener("click",function(){i=(i+1+Math.floor(Math.random()*(AFF.length-1)))%AFF.length;$("aff").textContent=AFF[i]});
+  tick();setInterval(tick,15000);
+
+  var C=276.46,total=25*60,left=total,run=false,timer=null,label="lock in",done=0,endAt=0;
+  try{var s=JSON.parse(localStorage.getItem("mco_focus")||"{}");if(s.d===new Date().toDateString())done=s.n||0}catch(e){}
+  function save(){try{localStorage.setItem("mco_focus",JSON.stringify({d:new Date().toDateString(),n:done}))}catch(e){}}
+  function dots(){var sp=$("dots").querySelectorAll("span");for(var k=0;k<sp.length;k++)sp[k].className=k<Math.min(done,4)?"f":"";$("cnt").textContent=done>4?"+"+(done-4)+" today":"today"}
+  function draw(){var mm=Math.floor(left/60),ss=left%60;$("time").textContent=(mm<10?"0":"")+mm+":"+(ss<10?"0":"")+ss;$("arc").style.strokeDashoffset=(C*(1-left/total)).toFixed(2);$("go").textContent=run?"pause ❚❚":(left<total?"resume ▶":"start ▶");$("lbl").textContent=left===0?"done! ✦":label}
+  function stop(){run=false;clearInterval(timer);timer=null}
+  function step(){left=Math.max(0,Math.ceil((endAt-Date.now())/1000));draw();if(left===0){stop();if(total===25*60){done++;save();dots()}draw()}}
+  $("go").addEventListener("click",function(){if(left===0){left=total}if(run){stop()}else{run=true;endAt=Date.now()+left*1000;timer=setInterval(step,250)}draw()});
+  $("rs").addEventListener("click",function(){stop();left=total;draw()});
+  var bs=document.querySelectorAll(".modes button");
+  for(var k=0;k<bs.length;k++)bs[k].addEventListener("click",function(){for(var j=0;j<bs.length;j++)bs[j].className="";this.className="on";stop();total=+this.getAttribute("data-m")*60;left=total;label=this.getAttribute("data-l");document.body.className=total===25*60?"":"brk";draw()});
+  dots();draw();
+})();
+</script>
+</body>
+</html>
