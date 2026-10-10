@@ -4,99 +4,126 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>studio</title>
+<link rel='preconnect' href='https://fonts.googleapis.com'><link rel='preconnect' href='https://fonts.gstatic.com' crossorigin><link href='https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=DM+Mono:wght@500&family=DM+Sans:opsz,wght@9..40,500;9..40,700&family=Instrument+Serif:ital@0;1&display=swap' rel='stylesheet'>
 <style>
-:root{--noir:#1D0E21;--paper:#F6EFE4;--wasabi:#D6F24B;--pers:#FF7A45;--blue:#A8D3FF;--lilac:#C7A6FF;--gum:#FF9DC8;--acc:var(--pers)}
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
-body{background:#140917;color:var(--paper);font-family:"Helvetica Neue",Arial,system-ui,sans-serif;overflow:hidden}
-.wrap{height:100%;min-height:300px;display:grid;grid-template-columns:1.15fr 1fr;gap:14px;padding:14px}
-.panel{border-radius:26px;border:1.5px solid rgba(246,239,228,.14);padding:clamp(16px,3.2vh,30px) clamp(16px,2.6vw,30px);display:flex;flex-direction:column;justify-content:center;gap:clamp(10px,2.4vh,22px);position:relative;overflow:hidden;min-height:0}
-.studio{background:var(--noir);background-image:radial-gradient(circle at 88% 8%,rgba(199,166,255,.38),transparent 55%),radial-gradient(circle at 0% 100%,rgba(255,122,69,.3),transparent 55%)}
-.timer{background:var(--noir);background-image:radial-gradient(circle at 100% 0%,rgba(255,122,69,.38),transparent 60%),radial-gradient(circle at 0% 100%,rgba(168,211,255,.28),transparent 55%);align-items:center;text-align:center}
-body.brk{--acc:var(--lilac)}body.edt{--acc:var(--blue)}
-.top{display:flex;justify-content:space-between;align-items:center;font:700 12px "Courier New",monospace;letter-spacing:.12em;text-transform:uppercase}
-.rec{display:inline-flex;align-items:center;gap:7px;color:var(--wasabi)}
-.rec i{width:9px;height:9px;border-radius:50%;background:#FF4D4D;box-shadow:0 0 10px #FF4D4D;animation:b 1.4s infinite}
-@keyframes b{50%{opacity:.2}}
-.hi{font-family:Georgia,"Times New Roman",serif;font-style:italic;font-size:clamp(22px,min(3.6vw,5.4vh),38px);line-height:1.05}
-.hi b{font-family:"Arial Black","Helvetica Neue",Arial,sans-serif;font-style:normal;color:var(--wasabi);letter-spacing:-.02em}
-.t{font:900 clamp(48px,min(9vw,15vh),120px)/.9 "Arial Black","Helvetica Neue",Arial,sans-serif;letter-spacing:-.04em}
-.slot{align-self:flex-start;font:700 12px "Courier New",monospace;letter-spacing:.08em;text-transform:uppercase;background:rgba(246,239,228,.08);border:1.5px solid rgba(246,239,228,.25);border-radius:999px;padding:6px 12px}
-.slot b{color:var(--wasabi)}
-.hook{background:var(--paper);color:var(--noir);border-radius:18px;padding:12px 12px 12px 16px;display:flex;gap:10px;align-items:center}
-.hook .l{font:700 10px "Courier New",monospace;letter-spacing:.14em;text-transform:uppercase;color:#7a5c86;margin-bottom:3px}
+body{background:var(--page);color:var(--ink);font-family:"DM Sans","Helvetica Neue",Arial,sans-serif;overflow:hidden;-webkit-font-smoothing:antialiased}
+.wrap{height:100%;display:grid;grid-template-columns:1.15fr 1fr;gap:12px;padding:12px}
+.panel{border-radius:24px;padding:clamp(14px,3vh,28px) clamp(16px,2.6vw,30px);display:flex;flex-direction:column;justify-content:center;gap:clamp(8px,2.2vh,20px);position:relative;overflow:hidden;min-height:0}
+.mono{font-family:"DM Mono","Courier New",monospace;font-weight:500;font-size:12px;letter-spacing:.12em;text-transform:uppercase}
+.serif{font-family:"Instrument Serif",Georgia,serif;font-style:italic;font-weight:400}
+.disp{font-family:"Bricolage Grotesque","Arial Black",sans-serif;font-weight:800}
+.top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+button{font-family:"Bricolage Grotesque","Arial Black",sans-serif;font-weight:800;font-size:13px;cursor:pointer;border-radius:999px;white-space:nowrap;transition:transform .1s}
+button:active{transform:scale(.96)}
+.focus{align-items:center;text-align:center}
+.ring{position:relative;width:clamp(120px,min(22vw,48vh),250px);aspect-ratio:1}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring .in{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+.time{font-family:"Bricolage Grotesque","Arial Black",sans-serif;font-weight:800;font-size:clamp(26px,min(4.6vw,10.5vh),56px);letter-spacing:-.03em;line-height:1}
+.modes{display:flex;flex-wrap:wrap;justify-content:center;gap:6px}
+.modes button{font-size:12px;padding:6px 11px}
+.ctrl{display:flex;gap:8px;width:100%;max-width:290px}
+#go{flex:1;font-size:16px;padding:10px 18px}
+.dots{display:flex;gap:6px;align-items:center;justify-content:center}
+.dots span{width:12px;height:12px;border-radius:50%}
+.switch{display:none}
+@media (max-height:380px){.focus .ttl{display:none}.panel{gap:8px}.dots{display:none}}
+@media (max-width:640px){
+  .wrap{grid-template-columns:1fr;grid-template-rows:auto 1fr;gap:8px;padding:10px}
+  .switch{display:flex;gap:6px;justify-content:center}
+  .switch button{font-size:12px;padding:6px 14px}
+  body:not([data-view="focus"]) .focus{display:none}
+  body[data-view="focus"] .hello{display:none}
+  .ring{width:clamp(120px,min(46vw,42vh),220px)}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+:root{--page:#140917;--panel:#1D0E21;--ink:#F6EFE4;--a1:#D6F24B;--a2:#FF7A45;--a3:#A8D3FF;--a4:#C7A6FF;--btxt:#1D0E21;--line:rgba(246,239,228,.14);--glowA:rgba(199,166,255,.38);--glowB:rgba(255,122,69,.3);--card:#F6EFE4;--cardtxt:#1D0E21}
+:root[data-theme="latte"]{--page:#EAE1D5;--panel:#F6F0E7;--ink:#2A1E19;--a1:#B8703F;--a2:#B8392F;--a3:#6F92AE;--a4:#7E9468;--btxt:#FFF8EF;--line:rgba(42,30,25,.12);--glowA:rgba(227,190,99,.25);--glowB:rgba(184,112,63,.16);--card:#2A1E19;--cardtxt:#F6F0E7}
+.panel{border:1.5px solid var(--line);background:var(--panel);background-image:radial-gradient(circle at 90% 6%,var(--glowA),transparent 55%),radial-gradient(circle at 0% 100%,var(--glowB),transparent 55%)}
+.rec{display:inline-flex;align-items:center;gap:8px;color:var(--a1)}
+.rec i{width:9px;height:9px;border-radius:50%;background:#FF4D4D;animation:b 1.4s infinite}
+@keyframes b{50%{opacity:.25}}
+.hi{font-size:clamp(22px,min(3.6vw,5.4vh),38px);line-height:1.05}
+.hi b{font-family:"Bricolage Grotesque","Arial Black",sans-serif;font-style:normal;font-weight:800;color:var(--a1);letter-spacing:-.02em}
+.t{font-size:clamp(46px,min(8vw,19vh),116px);line-height:.9;letter-spacing:-.045em}
+.slot{align-self:flex-start;border:1.5px solid var(--line);border-radius:999px;padding:6px 12px}
+.slot b{color:var(--a1);font-weight:500}
+.hook{background:var(--card);color:var(--cardtxt);border-radius:18px;padding:11px 11px 11px 16px;display:flex;gap:8px;align-items:center}
+.hook .l{font-size:10px;opacity:.6;margin-bottom:3px}
 .hook p{font-size:clamp(14px,2vh,17px);line-height:1.3;font-weight:700}
 .hook div{flex:1;min-width:0}
-button{font:900 12px "Arial Black","Helvetica Neue",Arial,sans-serif;color:var(--noir);background:var(--wasabi);border:0;border-radius:999px;padding:9px 13px;cursor:pointer;white-space:nowrap;transition:transform .1s}
-button:active{transform:scale(.96)}
-.cp{background:var(--lilac);padding:9px 11px}
-.title{font:900 clamp(20px,3.4vh,28px) "Arial Black","Helvetica Neue",Arial,sans-serif;letter-spacing:-.02em;line-height:1}
-.title i{font-family:Georgia,serif;font-weight:400;color:var(--wasabi)}
-.ring{position:relative;width:clamp(140px,min(24vw,38vh),260px);aspect-ratio:1}
-.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
-.ring .in{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.time{font:900 clamp(30px,min(5.4vw,8.5vh),60px) "Arial Black","Helvetica Neue",Arial,sans-serif;letter-spacing:-.04em}
-.lbl{font:700 11px "Courier New",monospace;letter-spacing:.1em;text-transform:uppercase}
-.modes{display:flex;flex-wrap:wrap;justify-content:center;gap:6px}
-.modes button{background:var(--paper);font-size:11px;padding:6px 11px}
-.modes button.on{background:var(--wasabi)}
-.ctrl{display:flex;gap:8px;width:100%;max-width:300px}
-#go{background:var(--acc);font-size:15px;padding:11px 18px;flex:1}
-#rs{background:var(--paper)}
-.dots{display:flex;gap:6px;align-items:center;justify-content:center;font:700 11px "Courier New",monospace;text-transform:uppercase;letter-spacing:.06em}
-.dots span{width:13px;height:13px;border-radius:50%;border:2px solid var(--paper)}
-.dots span.f{background:var(--wasabi);border-color:var(--wasabi)}
-@media (max-width:620px){.wrap{grid-template-columns:1fr;height:auto}body{overflow:auto}}
-@media (prefers-reduced-motion:reduce){.rec i{animation:none}}
+button{color:var(--btxt);background:var(--a1);border:0;padding:9px 13px}
+.cp{background:var(--a4);padding:9px 11px}
+.ttl{font-size:clamp(22px,3.6vh,32px);line-height:1}
+.ttl b{font-family:"Bricolage Grotesque","Arial Black",sans-serif;font-style:normal;font-weight:800}
+.lbl2{font-size:11px}
+.modes button{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.modes button.on{background:var(--a1);color:var(--btxt);border-color:transparent}
+#go{background:var(--a2);color:#fff}
+body[data-mode="1"] #go{background:var(--a4)}body[data-mode="2"] #go{background:var(--a3)}
+#rs{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.dots span{border:2px solid var(--ink);opacity:.5}
+.dots span.f{background:var(--a1);border-color:var(--a1);opacity:1}
+.switch button{background:transparent;color:var(--ink);border:1.5px solid var(--line)}.switch button.on{background:var(--a1);color:var(--btxt)}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <section class="panel studio">
-    <div class="top"><span class="rec"><i></i>on air</span><span id="date">✦</span></div>
-    <div class="hi" id="hi">hey, <b>creator</b></div>
-    <div class="t" id="t">--:--</div>
-    <div class="slot" id="slot">next posting window: <b>—</b></div>
-    <div class="hook"><div><div class="l">hook of the day</div><p id="hook">nobody talks about this, but…</p></div><button id="nx" type="button">new hook</button><button class="cp" id="cp" type="button" title="copy">⧉</button></div>
+  <div class="switch"><button type="button" class="on" data-v="hello">studio</button><button type="button" data-v="focus">timer</button></div>
+  <section class="panel hello">
+    <div class="top mono"><span class="rec"><i></i>on air</span><span id="date"></span></div>
+    <div class="hi serif" id="hi">hey, <b>creator</b></div>
+    <div class="t disp" id="t">--:--</div>
+    <div class="slot mono" id="slot"></div>
+    <div class="hook"><div><div class="l mono">hook to steal today</div><p id="hook"></p></div><button id="nx" type="button">new</button><button class="cp" id="cp" type="button" aria-label="copy">copy</button></div>
   </section>
-  <section class="panel timer">
-    <div class="title">studio <i>timer</i></div>
+  <section class="panel focus">
+    <div class="ttl serif">studio <b>timer</b></div>
     <div class="ring">
-      <svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="52" fill="#140917" stroke="rgba(246,239,228,.2)" stroke-width="3"/><circle id="arc" cx="60" cy="60" r="44" fill="none" stroke="var(--acc)" stroke-width="12" stroke-linecap="round" stroke-dasharray="276.46" stroke-dashoffset="0"/></svg>
-      <div class="in"><div class="time" id="time">25:00</div><div class="lbl" id="lbl">filming</div></div>
+      <svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="52" fill="none" stroke="currentColor" stroke-opacity=".18" stroke-width="3"/><circle id="arc" cx="60" cy="60" r="44" fill="none" stroke="var(--a2)" stroke-width="12" stroke-linecap="round" stroke-dasharray="276.46" stroke-dashoffset="0"/></svg>
+      <div class="in"><div class="time" id="time">25:00</div><div class="lbl2 mono" id="lbl">filming</div></div>
     </div>
-    <div class="modes"><button type="button" class="on" data-m="25" data-l="filming">film 25</button><button type="button" data-m="15" data-l="scripting">script 15</button><button type="button" data-m="45" data-l="editing">edit 45</button></div>
-    <div class="ctrl"><button type="button" id="go">start ▶</button><button type="button" id="rs">↺</button></div>
-    <div class="dots" id="dots"><span></span><span></span><span></span><span></span>&nbsp;<em id="cnt" style="font-style:normal">today</em></div>
+    <div class="modes"><button type="button" class="on" data-m="25" data-l="filming" data-i="0">film 25</button><button type="button" data-m="15" data-l="scripting" data-i="1">script 15</button><button type="button" data-m="45" data-l="editing" data-i="2">edit 45</button></div>
+    <div class="ctrl"><button type="button" id="go">start</button><button type="button" id="rs" aria-label="reset">↺</button></div>
+    <div class="dots mono" id="dots"><span></span><span></span><span></span><span></span>&nbsp;<em id="cnt" style="font-style:normal">today</em></div>
   </section>
 </div>
 <script>
 (function(){
+  var THEMES=["latte"];
+  var th=(new URLSearchParams(location.search).get("theme")||"").toLowerCase();if(THEMES.indexOf(th)>-1)document.documentElement.setAttribute("data-theme",th);
+
   function $(i){return document.getElementById(i)}
-  var H=["nobody talks about this, but…","i tried ___ for 7 days. here's what happened.","stop doing ___ if you want ___.","3 things i wish i knew before ___.","POV: you finally ___.","this is your sign to ___.","the ___ nobody is gatekeeping anymore.","i was today years old when i learned ___.","rating every ___ i tried this month.","if you're struggling with ___, watch this.","unpopular opinion: ___.","the lazy girl's guide to ___.","save this for your next ___.","day 1 of ___ until ___.","things that just make sense: ___ edition.","how i ___ without ___.","you're doing ___ wrong (and it's not your fault).","a ___ starter pack for people who ___."];
+  var H=["nobody told me this about ___ until way too late","i tried ___ for 7 days. honest results:","stop doing ___ if you want ___","3 things i'd tell myself before ___","POV: you finally figured out ___","the ___ i'd buy again (and the one i wouldn't)","rating every ___ i tried this month","if ___ is stressing you out, watch this","unpopular opinion: ___ is overrated","the lazy way to ___ (that actually works)","save this for your next ___","day 1 of ___ until ___","how i ___ without ___","you're doing ___ wrong and it's not your fault","what ___ looks like on a real budget","a ___ starter pack for people who ___"];
   var D=["sun","mon","tue","wed","thu","fri","sat"],M=["jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec"];
   function tick(){var d=new Date(),h=d.getHours(),m=d.getMinutes();$("t").textContent=(h%12||12)+":"+(m<10?"0":"")+m+(h<12?"am":"pm");
     $("date").textContent=D[d.getDay()]+" · "+M[d.getMonth()]+" "+d.getDate();
-    $("hi").innerHTML=(h<5?"still up,":h<12?"good morning,":h<17?"afternoon grind,":h<21?"good evening,":"late-night edit?")+" <b>creator</b>";
-    $("slot").innerHTML="next posting window: <b>"+(h<11?"11am – 1pm":h<17?"7pm – 9pm":h<21?"right now ✦":"tomorrow 11am")+"</b>"}
+    $("hi").innerHTML=(h<5?"still up,":h<12?"good morning,":h<17?"afternoon session,":h<21?"good evening,":"late edit?")+" <b>creator</b>";
+    $("slot").innerHTML="try posting: <b>"+(h<11?"11am – 1pm":h<17?"7pm – 9pm":h<21?"now-ish":"tomorrow 11am")+"</b>"}
   var i=Math.floor(Math.random()*H.length);$("hook").textContent=H[i];
-  $("nx").addEventListener("click",function(){i=(i+1+Math.floor(Math.random()*(H.length-1)))%H.length;$("hook").textContent=H[i];$("cp").textContent="⧉"});
-  $("cp").addEventListener("click",function(){try{navigator.clipboard.writeText($("hook").textContent).then(function(){$("cp").textContent="✓"},function(){$("cp").textContent="✕"})}catch(e){$("cp").textContent="✕"}});
+  $("nx").addEventListener("click",function(){i=(i+1+Math.floor(Math.random()*(H.length-1)))%H.length;$("hook").textContent=H[i];$("cp").textContent="copy"});
+  $("cp").addEventListener("click",function(){var t=$("hook").textContent;function ok(){$("cp").textContent="copied"}function no(){$("cp").textContent="select & copy"}try{navigator.clipboard.writeText(t).then(ok,no)}catch(e){no()}});
   tick();setInterval(tick,15000);
+  var MODES=[[25,"filming"]],STORE="cos_studio",COUNT_ALL=true;
 
-  var C=276.46,total=25*60,left=total,run=false,timer=null,label="filming",done=0,endAt=0;
-  try{var s=JSON.parse(localStorage.getItem("cos_studio")||"{}");if(s.d===new Date().toDateString())done=s.n||0}catch(e){}
-  function save(){try{localStorage.setItem("cos_studio",JSON.stringify({d:new Date().toDateString(),n:done}))}catch(e){}}
+  var C=276.46,total=MODES[0][0]*60,left=total,run=false,timer=null,label=MODES[0][1],done=0,endAt=0,KEY=STORE;
+  try{var s=JSON.parse(localStorage.getItem(KEY)||"{}");if(s.d===new Date().toDateString())done=s.n||0}catch(e){}
+  function save(){try{localStorage.setItem(KEY,JSON.stringify({d:new Date().toDateString(),n:done}))}catch(e){}}
   function dots(){var sp=$("dots").querySelectorAll("span");for(var k=0;k<sp.length;k++)sp[k].className=k<Math.min(done,4)?"f":"";$("cnt").textContent=done>4?"+"+(done-4)+" today":"today"}
-  function draw(){var mm=Math.floor(left/60),ss=left%60;$("time").textContent=(mm<10?"0":"")+mm+":"+(ss<10?"0":"")+ss;$("arc").style.strokeDashoffset=(C*(1-left/total)).toFixed(2);$("go").textContent=run?"pause ❚❚":(left<total?"resume ▶":"start ▶");$("lbl").textContent=left===0?"done! ✦":label}
+  function draw(){var mm=Math.floor(left/60),ss=left%60;$("time").textContent=(mm<10?"0":"")+mm+":"+(ss<10?"0":"")+ss;$("arc").style.strokeDashoffset=(C*(1-left/total)).toFixed(2);$("go").textContent=run?"pause":(left<total?"resume":"start");$("lbl").textContent=left===0?"done ✦":label}
   function stop(){run=false;clearInterval(timer);timer=null}
-  function step(){left=Math.max(0,Math.ceil((endAt-Date.now())/1000));draw();if(left===0){stop();done++;save();dots();draw()}}
+  function step(){left=Math.max(0,Math.ceil((endAt-Date.now())/1000));draw();if(left===0){stop();if(COUNT_ALL||total===MODES[0][0]*60){done++;save();dots()}draw()}}
   $("go").addEventListener("click",function(){if(left===0){left=total}if(run){stop()}else{run=true;endAt=Date.now()+left*1000;timer=setInterval(step,250)}draw()});
   $("rs").addEventListener("click",function(){stop();left=total;draw()});
   var bs=document.querySelectorAll(".modes button");
-  for(var k=0;k<bs.length;k++)bs[k].addEventListener("click",function(){for(var j=0;j<bs.length;j++)bs[j].className="";this.className="on";stop();total=+this.getAttribute("data-m")*60;left=total;label=this.getAttribute("data-l");document.body.className=total===25*60?"":(total===15*60?"brk":"edt");draw()});
+  for(var k=0;k<bs.length;k++)bs[k].addEventListener("click",function(){for(var j=0;j<bs.length;j++)bs[j].className="";this.className="on";stop();total=+this.getAttribute("data-m")*60;left=total;label=this.getAttribute("data-l");document.body.setAttribute("data-mode",this.getAttribute("data-i"));draw()});
+  var sw=document.querySelectorAll(".switch button");
+  for(var k2=0;k2<sw.length;k2++)sw[k2].addEventListener("click",function(){for(var j=0;j<sw.length;j++)sw[j].className="";this.className="on";document.body.setAttribute("data-view",this.getAttribute("data-v"))});
   dots();draw();
-})();
-</script>
+
+})();</script>
 </body>
 </html>
