@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>studio</title>
+<style>
+:root{--noir:#1D0E21;--paper:#F6EFE4;--wasabi:#D6F24B;--pers:#FF7A45;--blue:#A8D3FF;--lilac:#C7A6FF;--gum:#FF9DC8;--acc:var(--pers)}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:#140917;color:var(--paper);font-family:"Helvetica Neue",Arial,system-ui,sans-serif;overflow:hidden}
+.wrap{height:100%;min-height:300px;display:grid;grid-template-columns:1.15fr 1fr;gap:14px;padding:14px}
+.panel{border-radius:26px;border:1.5px solid rgba(246,239,228,.14);padding:clamp(16px,3.2vh,30px) clamp(16px,2.6vw,30px);display:flex;flex-direction:column;justify-content:center;gap:clamp(10px,2.4vh,22px);position:relative;overflow:hidden;min-height:0}
+.studio{background:var(--noir);background-image:radial-gradient(circle at 88% 8%,rgba(199,166,255,.38),transparent 55%),radial-gradient(circle at 0% 100%,rgba(255,122,69,.3),transparent 55%)}
+.timer{background:var(--noir);background-image:radial-gradient(circle at 100% 0%,rgba(255,122,69,.38),transparent 60%),radial-gradient(circle at 0% 100%,rgba(168,211,255,.28),transparent 55%);align-items:center;text-align:center}
+body.brk{--acc:var(--lilac)}body.edt{--acc:var(--blue)}
+.top{display:flex;justify-content:space-between;align-items:center;font:700 12px "Courier New",monospace;letter-spacing:.12em;text-transform:uppercase}
+.rec{display:inline-flex;align-items:center;gap:7px;color:var(--wasabi)}
+.rec i{width:9px;height:9px;border-radius:50%;background:#FF4D4D;box-shadow:0 0 10px #FF4D4D;animation:b 1.4s infinite}
+@keyframes b{50%{opacity:.2}}
+.hi{font-family:Georgia,"Times New Roman",serif;font-style:italic;font-size:clamp(22px,min(3.6vw,5.4vh),38px);line-height:1.05}
+.hi b{font-family:"Arial Black","Helvetica Neue",Arial,sans-serif;font-style:normal;color:var(--wasabi);letter-spacing:-.02em}
+.t{font:900 clamp(48px,min(9vw,15vh),120px)/.9 "Arial Black","Helvetica Neue",Arial,sans-serif;letter-spacing:-.04em}
+.slot{align-self:flex-start;font:700 12px "Courier New",monospace;letter-spacing:.08em;text-transform:uppercase;background:rgba(246,239,228,.08);border:1.5px solid rgba(246,239,228,.25);border-radius:999px;padding:6px 12px}
+.slot b{color:var(--wasabi)}
+.hook{background:var(--paper);color:var(--noir);border-radius:18px;padding:12px 12px 12px 16px;display:flex;gap:10px;align-items:center}
+.hook .l{font:700 10px "Courier New",monospace;letter-spacing:.14em;text-transform:uppercase;color:#7a5c86;margin-bottom:3px}
+.hook p{font-size:clamp(14px,2vh,17px);line-height:1.3;font-weight:700}
+.hook div{flex:1;min-width:0}
+button{font:900 12px "Arial Black","Helvetica Neue",Arial,sans-serif;color:var(--noir);background:var(--wasabi);border:0;border-radius:999px;padding:9px 13px;cursor:pointer;white-space:nowrap;transition:transform .1s}
+button:active{transform:scale(.96)}
+.cp{background:var(--lilac);padding:9px 11px}
+.title{font:900 clamp(20px,3.4vh,28px) "Arial Black","Helvetica Neue",Arial,sans-serif;letter-spacing:-.02em;line-height:1}
+.title i{font-family:Georgia,serif;font-weight:400;color:var(--wasabi)}
+.ring{position:relative;width:clamp(140px,min(24vw,38vh),260px);aspect-ratio:1}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring .in{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.time{font:900 clamp(30px,min(5.4vw,8.5vh),60px) "Arial Black","Helvetica Neue",Arial,sans-serif;letter-spacing:-.04em}
+.lbl{font:700 11px "Courier New",monospace;letter-spacing:.1em;text-transform:uppercase}
+.modes{display:flex;flex-wrap:wrap;justify-content:center;gap:6px}
+.modes button{background:var(--paper);font-size:11px;padding:6px 11px}
+.modes button.on{background:var(--wasabi)}
+.ctrl{display:flex;gap:8px;width:100%;max-width:300px}
+#go{background:var(--acc);font-size:15px;padding:11px 18px;flex:1}
+#rs{background:var(--paper)}
+.dots{display:flex;gap:6px;align-items:center;justify-content:center;font:700 11px "Courier New",monospace;text-transform:uppercase;letter-spacing:.06em}
+.dots span{width:13px;height:13px;border-radius:50%;border:2px solid var(--paper)}
+.dots span.f{background:var(--wasabi);border-color:var(--wasabi)}
+@media (max-width:620px){.wrap{grid-template-columns:1fr;height:auto}body{overflow:auto}}
+@media (prefers-reduced-motion:reduce){.rec i{animation:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <section class="panel studio">
+    <div class="top"><span class="rec"><i></i>on air</span><span id="date">✦</span></div>
+    <div class="hi" id="hi">hey, <b>creator</b></div>
+    <div class="t" id="t">--:--</div>
+    <div class="slot" id="slot">next posting window: <b>—</b></div>
+    <div class="hook"><div><div class="l">hook of the day</div><p id="hook">nobody talks about this, but…</p></div><button id="nx" type="button">new hook</button><button class="cp" id="cp" type="button" title="copy">⧉</button></div>
+  </section>
+  <section class="panel timer">
+    <div class="title">studio <i>timer</i></div>
+    <div class="ring">
+      <svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="52" fill="#140917" stroke="rgba(246,239,228,.2)" stroke-width="3"/><circle id="arc" cx="60" cy="60" r="44" fill="none" stroke="var(--acc)" stroke-width="12" stroke-linecap="round" stroke-dasharray="276.46" stroke-dashoffset="0"/></svg>
+      <div class="in"><div class="time" id="time">25:00</div><div class="lbl" id="lbl">filming</div></div>
+    </div>
+    <div class="modes"><button type="button" class="on" data-m="25" data-l="filming">film 25</button><button type="button" data-m="15" data-l="scripting">script 15</button><button type="button" data-m="45" data-l="editing">edit 45</button></div>
+    <div class="ctrl"><button type="button" id="go">start ▶</button><button type="button" id="rs">↺</button></div>
+    <div class="dots" id="dots"><span></span><span></span><span></span><span></span>&nbsp;<em id="cnt" style="font-style:normal">today</em></div>
+  </section>
+</div>
+<script>
+(function(){
+  function $(i){return document.getElementById(i)}
+  var H=["nobody talks about this, but…","i tried ___ for 7 days. here's what happened.","stop doing ___ if you want ___.","3 things i wish i knew before ___.","POV: you finally ___.","this is your sign to ___.","the ___ nobody is gatekeeping anymore.","i was today years old when i learned ___.","rating every ___ i tried this month.","if you're struggling with ___, watch this.","unpopular opinion: ___.","the lazy girl's guide to ___.","save this for your next ___.","day 1 of ___ until ___.","things that just make sense: ___ edition.","how i ___ without ___.","you're doing ___ wrong (and it's not your fault).","a ___ starter pack for people who ___."];
+  var D=["sun","mon","tue","wed","thu","fri","sat"],M=["jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec"];
+  function tick(){var d=new Date(),h=d.getHours(),m=d.getMinutes();$("t").textContent=(h%12||12)+":"+(m<10?"0":"")+m+(h<12?"am":"pm");
+    $("date").textContent=D[d.getDay()]+" · "+M[d.getMonth()]+" "+d.getDate();
+    $("hi").innerHTML=(h<5?"still up,":h<12?"good morning,":h<17?"afternoon grind,":h<21?"good evening,":"late-night edit?")+" <b>creator</b>";
+    $("slot").innerHTML="next posting window: <b>"+(h<11?"11am – 1pm":h<17?"7pm – 9pm":h<21?"right now ✦":"tomorrow 11am")+"</b>"}
+  var i=Math.floor(Math.random()*H.length);$("hook").textContent=H[i];
+  $("nx").addEventListener("click",function(){i=(i+1+Math.floor(Math.random()*(H.length-1)))%H.length;$("hook").textContent=H[i];$("cp").textContent="⧉"});
+  $("cp").addEventListener("click",function(){try{navigator.clipboard.writeText($("hook").textContent).then(function(){$("cp").textContent="✓"},function(){$("cp").textContent="✕"})}catch(e){$("cp").textContent="✕"}});
+  tick();setInterval(tick,15000);
+
+  var C=276.46,total=25*60,left=total,run=false,timer=null,label="filming",done=0,endAt=0;
+  try{var s=JSON.parse(localStorage.getItem("cos_studio")||"{}");if(s.d===new Date().toDateString())done=s.n||0}catch(e){}
+  function save(){try{localStorage.setItem("cos_studio",JSON.stringify({d:new Date().toDateString(),n:done}))}catch(e){}}
+  function dots(){var sp=$("dots").querySelectorAll("span");for(var k=0;k<sp.length;k++)sp[k].className=k<Math.min(done,4)?"f":"";$("cnt").textContent=done>4?"+"+(done-4)+" today":"today"}
+  function draw(){var mm=Math.floor(left/60),ss=left%60;$("time").textContent=(mm<10?"0":"")+mm+":"+(ss<10?"0":"")+ss;$("arc").style.strokeDashoffset=(C*(1-left/total)).toFixed(2);$("go").textContent=run?"pause ❚❚":(left<total?"resume ▶":"start ▶");$("lbl").textContent=left===0?"done! ✦":label}
+  function stop(){run=false;clearInterval(timer);timer=null}
+  function step(){left=Math.max(0,Math.ceil((endAt-Date.now())/1000));draw();if(left===0){stop();done++;save();dots();draw()}}
+  $("go").addEventListener("click",function(){if(left===0){left=total}if(run){stop()}else{run=true;endAt=Date.now()+left*1000;timer=setInterval(step,250)}draw()});
+  $("rs").addEventListener("click",function(){stop();left=total;draw()});
+  var bs=document.querySelectorAll(".modes button");
+  for(var k=0;k<bs.length;k++)bs[k].addEventListener("click",function(){for(var j=0;j<bs.length;j++)bs[j].className="";this.className="on";stop();total=+this.getAttribute("data-m")*60;left=total;label=this.getAttribute("data-l");document.body.className=total===25*60?"":(total===15*60?"brk":"edt");draw()});
+  dots();draw();
+})();
+</script>
+</body>
+</html>
