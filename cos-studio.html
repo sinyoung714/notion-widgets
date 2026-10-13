@@ -109,19 +109,28 @@ body[data-mode="1"] #go{background:var(--a4)}body[data-mode="2"] #go{background:
   tick();setInterval(tick,15000);
   var MODES=[[25,"filming"]],STORE="cos_studio",COUNT_ALL=true;
 
-  var C=276.46,total=MODES[0][0]*60,left=total,run=false,timer=null,label=MODES[0][1],done=0,endAt=0,KEY=STORE;
-  try{var s=JSON.parse(localStorage.getItem(KEY)||"{}");if(s.d===new Date().toDateString())done=s.n||0}catch(e){}
-  function save(){try{localStorage.setItem(KEY,JSON.stringify({d:new Date().toDateString(),n:done}))}catch(e){}}
+  var C=276.46,bs=document.querySelectorAll(".modes button"),cur=0,total=MODES[0][0]*60,left=total,run=false,timer=null,label=MODES[0][1],done=0,endAt=0,KEY=STORE;
+  function today(){return new Date().toDateString()}
+  function save(){try{localStorage.setItem(KEY,JSON.stringify({d:today(),n:done,i:cur,run:run,endAt:endAt,left:left}))}catch(e){}}
   function dots(){var sp=$("dots").querySelectorAll("span");for(var k=0;k<sp.length;k++)sp[k].className=k<Math.min(done,4)?"f":"";$("cnt").textContent=done>4?"+"+(done-4)+" today":"today"}
-  function draw(){var mm=Math.floor(left/60),ss=left%60;$("time").textContent=(mm<10?"0":"")+mm+":"+(ss<10?"0":"")+ss;$("arc").style.strokeDashoffset=(C*(1-left/total)).toFixed(2);$("go").textContent=run?"pause":(left<total?"resume":"start");$("lbl").textContent=left===0?"done ✦":label}
+  function draw(){var mm=Math.floor(left/60),ss=left%60;$("time").textContent=(mm<10?"0":"")+mm+":"+(ss<10?"0":"")+ss;$("arc").style.strokeDashoffset=(C*(1-left/total)).toFixed(2);$("go").textContent=run?"pause":(left<total&&left>0?"resume":"start");$("lbl").textContent=left===0?"done ✦":label}
   function stop(){run=false;clearInterval(timer);timer=null}
-  function step(){left=Math.max(0,Math.ceil((endAt-Date.now())/1000));draw();if(left===0){stop();if(COUNT_ALL||total===MODES[0][0]*60){done++;save();dots()}draw()}}
-  $("go").addEventListener("click",function(){if(left===0){left=total}if(run){stop()}else{run=true;endAt=Date.now()+left*1000;timer=setInterval(step,250)}draw()});
-  $("rs").addEventListener("click",function(){stop();left=total;draw()});
-  var bs=document.querySelectorAll(".modes button");
-  for(var k=0;k<bs.length;k++)bs[k].addEventListener("click",function(){for(var j=0;j<bs.length;j++)bs[j].className="";this.className="on";stop();total=+this.getAttribute("data-m")*60;left=total;label=this.getAttribute("data-l");document.body.setAttribute("data-mode",this.getAttribute("data-i"));draw()});
+  function finish(){var e=endAt;stop();left=0;if((COUNT_ALL||cur===0)&&new Date(e).toDateString()===today())done++;save();dots();draw()}
+  function step(){left=Math.max(0,Math.ceil((endAt-Date.now())/1000));if(left===0)finish();else draw()}
+  function tickOn(){clearInterval(timer);timer=setInterval(step,250)}
+  function pick(i){cur=i;for(var j=0;j<bs.length;j++)bs[j].className=j===i?"on":"";total=+bs[i].getAttribute("data-m")*60;label=bs[i].getAttribute("data-l");document.body.setAttribute("data-mode",String(i))}
+  $("go").addEventListener("click",function(){if(left===0)left=total;if(run){left=Math.max(1,Math.ceil((endAt-Date.now())/1000));stop()}else{run=true;endAt=Date.now()+left*1000;tickOn()}save();draw()});
+  $("rs").addEventListener("click",function(){stop();left=total;save();draw()});
+  for(var k=0;k<bs.length;k++)bs[k].addEventListener("click",function(){stop();pick(+this.getAttribute("data-i"));left=total;save();draw()});
   var sw=document.querySelectorAll(".switch button");
   for(var k2=0;k2<sw.length;k2++)sw[k2].addEventListener("click",function(){for(var j=0;j<sw.length;j++)sw[j].className="";this.className="on";document.body.setAttribute("data-view",this.getAttribute("data-v"))});
+  try{var s=JSON.parse(localStorage.getItem(KEY)||"{}");
+    if(s.d===today())done=s.n||0;
+    if(typeof s.i==="number"&&bs[s.i]){pick(s.i);left=total;
+      if(s.run&&s.endAt){endAt=s.endAt;run=true;left=Math.max(0,Math.ceil((endAt-Date.now())/1000));if(left===0)finish();else tickOn()}
+      else if(typeof s.left==="number"&&s.left>0&&s.left<=total)left=s.left}
+  }catch(e){}
+  document.addEventListener("visibilitychange",function(){if(run&&!document.hidden)step()});
   dots();draw();
 
 })();</script>
